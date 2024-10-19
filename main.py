@@ -6,7 +6,7 @@ from PIL import Image
 def mask_pixel_joiner():
     print("Starting Mask Pixel Joiner")
 
-    read_images_from_directory("C:\\Users\\Richard\\Documents\\Unreal Projects\\Bibimbap54\\Saved\\Screenshots\\Marker Buoys\\Cardinal Marks\\West")
+    read_images_from_directory("C:\\Users\\Richard\\Documents\\Unreal Projects\\Bibimbap54\\Saved\\Screenshots\\Marker Buoys\\Lateral Marks\\Port\\Channel\\A")
 
 def read_images_from_directory(directory):
 
@@ -57,13 +57,16 @@ def read_pixel_values_of_image(directory, file):
                     print("Filling in gap with green")
                     imagePixels[x-1, y-1] = (0, 255, 0, 255)
 
-                # Vertical gap
-                if (imagePixels[x, y-5][0] == 255) and (imagePixels[x, y-4][0] != 255):
-                    print("Filling in gap with green")
-                    imagePixels[x, y-4] = (0, 255, 0, 255)
-                    imagePixels[x, y-3] = (0, 255, 0, 255)
-                    imagePixels[x, y-2] = (0, 255, 0, 255)
-                    imagePixels[x, y-1] = (0, 255, 0, 255)
+                for i in range (10):
+                    # Vertical gap
+                    if (imagePixels[x, y-i][0] == 255) and (imagePixels[x, y-i-1][0] != 255):
+                        print("Filling in gap with green")
+                        imagePixels[x, y-4] = (0, 255, 0, 255)
+                        imagePixels[x, y-3] = (0, 255, 0, 255)
+                        imagePixels[x, y-2] = (0, 255, 0, 255)
+                        imagePixels[x, y-1] = (0, 255, 0, 255)
+
+                
 
                 
 
