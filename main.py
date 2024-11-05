@@ -74,7 +74,6 @@ def get_pixels_rows_with_red_pixels(directory, file):
     rows_with_red_pixel = []
 
     # For checking image from left to right
-
     # For every column
     for y in range(0, 512, 2):
 
@@ -85,12 +84,12 @@ def get_pixels_rows_with_red_pixels(directory, file):
 
                 print("ROW CONTAINS RED PIXEL")
                 rows_with_red_pixel.append([x,y])
-                image_pixels[x,y] = (0, 0, 255, 255)
+                image_pixels[x,y] = (0, 255, 0, 255)
                 break
 
     # For checking image from right to left
     # For every column
-    for y in range(0, 512, 2):
+    for y in range(511, -1, -2):
 
         # For every row (bottom to top, reverse order)
         for x in range(511, -1, -1):
@@ -111,7 +110,31 @@ def get_pixels_rows_with_red_pixels(directory, file):
     print("Last row is: ")
     print(rows_with_red_pixel[-1])
 
+    # Uncomment to view the image
     opened_image.save(directory+"\\masked_"+file)
+
+    #Remove .png from file name
+    file = file.replace('.png', '')
+
+    f = open(directory+"\\"+file+".txt", "w")
+
+    # Class of buoy
+    f.write("0 ")
+
+    # Normalisation
+    for coordinate in rows_with_red_pixel:    
+
+        normalised_x = coordinate[0] / 512
+        rounded_normalised_x = round(normalised_x, 5)
+
+        normalised_y = coordinate[1] / 512
+        rounded_normalised_y = round(normalised_y, 5)
+
+        f.write(str(rounded_normalised_x) + " ")
+        f.write(str(rounded_normalised_y) + " ")
+
+    f.close()
+
 
                 
 def get_coordinates_of_bounding_box(directory, file):
