@@ -84,7 +84,7 @@ def get_pixels_rows_with_red_pixels(directory, file):
             if image_pixels[x,y][0] == 255:
 
                 print("ROW CONTAINS RED PIXEL")
-                rows_with_red_pixel.append(y)
+                rows_with_red_pixel.append([x,y])
                 image_pixels[x,y] = (0, 0, 255, 255)
                 break
 
@@ -97,7 +97,7 @@ def get_pixels_rows_with_red_pixels(directory, file):
 
             if image_pixels[x, y][0] == 255: 
                 print("ROW CONTAINS RED PIXEL FROM RIGHT TO LEFT")
-                rows_with_red_pixel.append(y)
+                rows_with_red_pixel.append([x,y])
                 image_pixels[x, y] = (0, 0, 255, 255) 
                 break
 
