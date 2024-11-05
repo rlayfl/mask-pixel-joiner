@@ -6,7 +6,7 @@ from PIL import Image
 def mask_pixel_joiner():
     print("Starting Mask Pixel Joiner")
 
-    read_images_from_directory("C:\\Users\\Richard\\Documents\\Unreal Projects\\Bibimbap54\\Saved\\Screenshots\\Marker Buoys\\Cardinal Marks\\East")
+    read_images_from_directory("C:\\Users\\Richard\\Desktop\\Mask Pixel Joiner Test Images")
 
 def read_images_from_directory(directory):
 
@@ -14,7 +14,7 @@ def read_images_from_directory(directory):
         if (file.endswith(".png")):
             print(directory+file)
             print(file)
-            read_pixel_values_of_image(directory, file)       
+            get_pixels_rows_with_red_pixels(directory, file)       
 
 def read_pixel_values_of_image(directory, file):
 
@@ -65,6 +65,53 @@ def read_pixel_values_of_image(directory, file):
     openedImage.save(directory+"\\filled_"+file)
 
     get_coordinates_of_bounding_box(directory, "filled_"+file)
+
+def get_pixels_rows_with_red_pixels(directory, file):
+
+    opened_image = Image.open(directory+"\\"+file)
+    image_pixels = opened_image.load()
+
+    rows_with_red_pixel = []
+
+    # For checking image from left to right
+
+    # For every column
+    for y in range(0, 512, 2):
+
+        # For every row
+        for x in range(512):
+
+            if image_pixels[x,y][0] == 255:
+
+                print("ROW CONTAINS RED PIXEL")
+                rows_with_red_pixel.append(y)
+                image_pixels[x,y] = (0, 0, 255, 255)
+                break
+
+    # For checking image from right to left
+    # For every column
+    for y in range(0, 512, 2):
+
+        # For every row (bottom to top, reverse order)
+        for x in range(511, -1, -1):
+
+            if image_pixels[x, y][0] == 255: 
+                print("ROW CONTAINS RED PIXEL FROM RIGHT TO LEFT")
+                rows_with_red_pixel.append(y)
+                image_pixels[x, y] = (0, 0, 255, 255) 
+                break
+
+    print(rows_with_red_pixel)
+    print("Height of image mask is:")
+    print(len(rows_with_red_pixel))
+
+    print("First row is: ")
+    print(rows_with_red_pixel[0])
+
+    print("Last row is: ")
+    print(rows_with_red_pixel[-1])
+
+    opened_image.save(directory+"\\masked_"+file)
 
                 
 def get_coordinates_of_bounding_box(directory, file):
